@@ -1,0 +1,66 @@
+﻿\documentclass[finnish]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+
+
+\begin{document}
+
+\title{Tietokantasovellus - FlexDo}
+\maketitle
+
+
+\section{Johdanto}
+Tavoitteena on kehittää tehokas järjestelmä tehtävien hallintaan. Tehtävät tulisi voida priorisoida, ja lajitella omiin luokkiinsa.
+
+\subsection{Järjestelmän tarkoitus}
+Järjestelmän perusta on priorisoitu tehtävälista. Järjestelmän tulisi sallia käyttäjän lisätä tehtäviä listalle, asettaa tehtäville prioriteetti, ja selata niitä eri järjestyksissä (mm. prioriteetin mukaan). Lisäksi tehtävät tulisi voida luokitella erillisiin kategorioihin, mielellään hierarkisesti.
+
+\subsection{Toteutus}
+Järjestelmä toteutetaan Java/Tomcat verkkosovelluksena, tietokantajärjestelmänä PostgreSQL. Järjestelmän tulisi olla käytettävissä puhtaasti html muotoisena, mutta käyttöä helpottavia lisätoimintoja voidaan tarvittaessa toteuttaa javascriptillä.
+
+
+\section{Yleiskuva järjestelmästä}
+
+\subsection{Käyttäjäryhmät}
+\begin{description}
+  \item[Käyttäjä] \hfill \\
+    Rekisteröitynyt ja järjestelmään sisäänkirjautunut käyttäjä
+\end{description}
+
+\subsection{Käyttötapaukset}
+\begin{description}
+  \item[Kirjautuminen]
+  \item[Rekisteröityminen]
+  \item[Askareen lisäys] \hfill \\
+    Käyttäjä voi lisätä uuden askareen. Askareelle annetaan lisätessä nimi, mahdollinen kuvaus ja prioriteetti.
+  \item[Askareen muokkaus] \hfill \\
+    Käyttäjä voi muokata järjestelmässä olevan askareen prioriteettia, nimeä sekä kuvausta.
+  \item[Askareen poisto] \hfill \\
+    Käyttäjä voi poistaa askareen järjestelmässä. Poiston yhteydessä voidaan joko merkitä askare suoritetuksi, jolloin se jää järjestelmään erilliseen kategoriaan kirjanpitoa varten, taikka poistaa askare kokonaan järjestelmästä.
+  \item[Askareiden selaus prioriteetin mukaan] \hfill \\
+    Käyttäjä voi selata järjestelmässä olevia askareita prioriteettijärjestyksessä.
+  \item[Luokkien lisäys ja poisto] \hfill \\
+    Käyttäjä voi lisätä ja poistaa järjestelmässä olevia askareiden luokkia.
+  \item[Askareiden luokittelu] \hfill \\
+    Käyttäjä voi liittää askareen luokkaan, taikka poistaa sen luokasta. Yksi askare voi kuulua useaan luokkaan.
+  \item[Askareiden selaus luokittain] \hfill \\
+    Käyttäjä voi selata järjestelmässä olevia askareita luokan mukaan.
+  \item[Suoritettujen askareiden selaus] \hfill \\
+    Käyttäjä voi selata suoritettuja askareita suoritusajankohdan mukaan järjestettynä.
+  \item[Luokkien hierarkkinen järjestely] \hfill \\
+    Käyttäjä voi asettaa luokkia toistensa alaluokiksi, muodostaen hierarkisen luokkarakenteen.
+\end{description}
+
+
+\section{Jatkokoehitysideoita}
+
+\begin{itemize}
+  \item Askareiden aikataulutus
+  \item Askareiden välisiä linkkejä (wiki-tyyli)
+  \item Muistioita ("askare", joka toimii muistiona eikä suoritettavana tehtävänä) (vaatii askareiden väiset linkit)
+  \item Askareiden välisiä vaativuuksia (Tehtävä B ei ole suoritettavissa ennenkuin tehtävä A on suoritettu)
+  \item Projektinäkymä (kartoitettu näkymä aikataulusta ja askareiden väisistä riippuvuuksista)
+\end{itemize}
+
+\end{document}
