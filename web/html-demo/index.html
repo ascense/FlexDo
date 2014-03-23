@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>FlexDo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body>
+
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#flexdo-navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">FlexDo</a>
+        </div>
+        <div class="collapse navbar-collapse" id="flexdo-navbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Askareet</a></li>
+                <li><a href="#">Muistiot</a></li>
+                <li><a href="#">Luokat</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Etsi...">
+                    <button type="submit" class="btn btn-default">Hae</button>
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="login.html">Kirjaudu Ulos</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+    
+        <!-- Page Header !-->
+        <div class="col-md-12">
+            <h2>Askareet</h2>
+        </div>
+        
+        <!-- Page Content !-->
+        <div class="col-md-8">
+            <div class="list-group">
+                <div class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        <a href="viewtask.html">Tee leipä</a>
+                        <small>
+                            &nbsp;
+                            <a href="#" class="label label-info">Luokka A</a>
+                        </small>
+                        <button type="button" class="close" aria-hidden="true">&times;</button>
+                    </h4>
+                    <p class="list-group-item-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Sed fermentum dignissim eros a congue.
+                        Donec accumsan, ante eget tempus lobortis, arcu urna cursus purus, euismod rhoncus orci felis nec justo.
+                    </p>
+                </div>
+                <div class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        <a href="viewtask.html">Juo kahvia</a>
+                        <small>
+                            &nbsp;
+                            <a href="#" class="label label-info">Luokka B</a>
+                            <a href="#" class="label label-info">Luokka C</a>
+                        </small>
+                        <button type="button" class="close" aria-hidden="true">&times;</button>
+                    </h4>
+                    <p class="list-group-item-text">
+                        Porkkanat on kalliita, ostakaa haarukka!
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar !-->
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-target="#flexdo-task-collapse" href="#">
+                            Uusi askare <span class="caret"></span>
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-body collapse in" id="flexdo-task-collapse">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="taskNameInput">Nimi</label>
+                            <input type="text" id="taskNameInput" class="form-control" placeholder="Nimi">
+                        </div>
+                        <div class="form-group">
+                            <label for="taskTextInput">Kuvaus</label>
+                            <textarea id="taskTextInput" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskPriorityInput">Prioriteetti</label>
+                            <input type="number" id="taskPriorityInput" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Luo</button>
+                    </form>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-target="#flexdo-class-collapse" href="#">
+                            Luokat <span class="caret"></span>
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-body collapse in" id="flexdo-class-collapse">
+                    <ul class="list-unstyled">
+                        <li>Luokka A</li>
+                        <li>Luokka B</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+
+</body>
+</html>
