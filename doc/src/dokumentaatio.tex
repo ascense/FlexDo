@@ -1,6 +1,7 @@
 ﻿\documentclass[finnish]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{graphicx}
 \usepackage{babel}
 
 
@@ -51,6 +52,71 @@ Järjestelmä toteutetaan Java/Tomcat verkkosovelluksena, tietokantajärjestelm�
   \item[Luokkien hierarkkinen järjestely] \hfill \\
     Käyttäjä voi asettaa luokkia toistensa alaluokiksi, muodostaen hierarkisen luokkarakenteen.
 \end{description}
+
+
+\section{Järjestelmän tietosisältö}
+
+\subsection{Tietokohteet}
+
+\paragraph{Tietokohde: Käyttäjät} ~\\
+
+\begin{tabular}{ | l | l | l | }
+  \hline
+  Attribuutti & Arvojoukko & Kuvailu \\ \hline
+  Nimi & Merkkijono & Käyttäjätunnus \\
+  Salasana & Merkkijono, pituus tiivistefunktion mukaan & Käyttäjän salasanaa vastaava tiiviste \\
+  \hline
+\end{tabular}
+
+
+\paragraph{Tietokohde: Muistio} ~\\
+
+\begin{tabular}{ | l | l | l | }
+  \hline
+  Attribuutti & Arvojoukko & Kuvailu \\ \hline
+  Käyttäjä & Vieras avain & Linkki muistion omistavaan käyttäjään \\
+  Nimi & Merkkijono & Muistion nimi \\
+  Sisältö & Merkkijono & Muistion sisältö \\
+  Luontiaika & Aika ja päivämäärä & Muistion luomisaijankohta \\
+  \hline
+\end{tabular}
+
+\vspace{5pt}
+Muistio koostuu otsikosta ja tekstisisällöstä. Muistiosta voidaan tehdä askare linkkamalla siihen askare-tietkohde.
+
+
+\paragraph{Tietokohde: Askare} ~\\
+
+\begin{tabular}{ | l | l | l | }
+  \hline
+  Attribuutti & Arvojoukko & Kuvailu \\ \hline
+  Muistio & Vieras avain & Linkki muistioon, josta askareen tietosisältö löytyy \\
+  Prioriteetti & Kokonaisluku & Askareen prioriteetti \\
+  Sulkemisaika & Aika ja päivämäärä & Askareen sulkemisajankohta, jos askare on suoritettu \\
+  \hline
+\end{tabular}
+
+\vspace{5pt}
+Tietokannan askare-taulu sisältää kaiken tarvittavan metatiedon jolla muistiosta voidaan tehdä askare.
+Jokaiseen askareeseen liittyy tasan yksi muistio.
+
+
+\paragraph{Tietokohde: Luokka} ~\\
+
+\begin{tabular}{ | l | l | l | }
+  \hline
+  Attribuutti & Arvojoukko & Kuvailu \\ \hline
+  Käyttäjä & Vieras avain & Linkki luokan omistavaan käyttäjään \\
+  Nimi & Merkkijono & Luokan nimi \\
+  Yläluokka & Vieras avain & Linkki mahdolliseen luokan yläluokkaan \\
+  \hline
+\end{tabular} \\
+
+\vspace{5pt}
+Luokat voidaan järjestää hierarkiaan yläluokka-suhteen mukaan. Jokainen muistio voi kuulua yhteen tai useampaan luokkaan.
+
+
+\section{Relaatiotietokantakaavio}
 
 
 \section{Jatkokoehitysideoita}
