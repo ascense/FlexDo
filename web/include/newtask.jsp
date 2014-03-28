@@ -1,4 +1,5 @@
 <form role="form">
+    <fieldset disabled>
     <div class="form-group">
         <label for="taskNameInput">Nimi</label>
         <input type="text" id="taskNameInput" class="form-control" placeholder="Nimi">
@@ -12,4 +13,5 @@
         <input type="number" id="taskPriorityInput" class="form-control">
     </div>
     <button type="submit" class="btn btn-primary btn-block">Luo</button>
+    </fieldset>
 </form>

@@ -55,15 +55,33 @@ public class Memo {
         return created;
     }
 
-    public static Memo getMemo(String name) {
+    public List<Category> getCategories() {
+        ArrayList<Category> cats = new ArrayList<Category>();
+
+
+        try {
+            Database.doQuery(
+                Category.class,
+                cats,
+                "SELECT * FROM memo_category JOIN category ON category.catid = memo_category.catid WHERE memoid = ?",
+                this.id
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return cats;
+    }
+
+    public static Memo getMemo(int id) {
         ArrayList<Memo> memos = new ArrayList<Memo>();
 
         try {
             Database.doQuery(
                 Memo.class,
                 memos,
-                "SELECT * FROM memo WHERE memoname = ?",
-                name
+                "SELECT * FROM memo WHERE memoid = ?",
+                id
             );
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -76,11 +94,18 @@ public class Memo {
         }
     }
 
+    /*
+     * Get a list of all memos not part of a task
+     */
     public static List<Memo> getMemos() {
         ArrayList<Memo> memos = new ArrayList<Memo>();
 
         try {
-            Database.doQuery(Memo.class, memos, "SELECT * FROM memo");
+            Database.doQuery(
+                Memo.class,
+                memos,
+                "SELECT * FROM memo WHERE memoid NOT IN (SELECT memoid FROM task)"
+            );
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

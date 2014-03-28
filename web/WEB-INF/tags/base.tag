@@ -26,14 +26,16 @@
         </div>
         <div class="collapse navbar-collapse" id="flexdo-navbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Askareet</a></li>
-                <li><a href="#">Muistiot</a></li>
-                <li><a href="#">Luokat</a></li>
+                <li<c:if test="${pageTitle == 'Askareet'}"> class="active"</c:if>><a href="/FlexDo/index">Askareet</a></li>
+                <li<c:if test="${pageTitle == 'Muistiot'}"> class="active"</c:if>><a href="/FlexDo/index?memos">Muistiot</a></li>
+                <!-- Not yet implemented
+                <li<c:if test="${pageTitle == 'Luokat'}"> class="active"</c:if>><a href="#">Luokat</a></li>
+                !-->
             </ul>
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Etsi...">
-                    <button type="submit" class="btn btn-default">Hae</button>
+                    <input type="text" class="form-control" placeholder="Etsi..." disabled>
+                    <button type="submit" class="btn btn-default" disabled>Hae</button>
                 </div>
             </form>
             <ul class="nav navbar-nav navbar-right">
