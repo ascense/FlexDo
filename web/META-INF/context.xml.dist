@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/FlexDo">
+    <Resource name="jdbc/tietokanta" auth="Container"
+            type="javax.sql.DataSource" removeAbandoned="true"
+            removeAbandonedTimeout="30" maxActive="100"
+            maxIdle="30" maxWait="10000"
+            driverClassName="org.postgresql.Driver"
+            username="TUNNUS"
+            password="SALASANA"
+            url="jdbc:postgresql://localhost/TIETOKANNAN_NIMI" />
+</Context>
