@@ -1,5 +1,7 @@
-package com.ascense.flexdo.db;
+package com.ascense.flexdo.core;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +22,6 @@ public class Database {
         return dataSource.getConnection();
     }
 
-
     public static boolean hasConnection() {
         try {
             Connection c = getConnection();
@@ -29,7 +30,6 @@ public class Database {
             return false;
         }
     }
-
 
     public static List<String> getTables()
             throws NamingException, SQLException {
@@ -42,13 +42,48 @@ public class Database {
         PreparedStatement stmnt = conn.prepareStatement(query);
         ResultSet tableData = stmnt.executeQuery();
 
-        while (tableData.next())
+        while (tableData.next()) {
             tables.add(tableData.getString(1));
+        }
 
         tableData.close();
         stmnt.close();
         conn.close();
 
         return tables;
+    }
+
+    public static void doQuery(Class cls, List list, String query, Object... qvals)
+            throws NamingException, SQLException, NoSuchMethodException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        // TODO: Fix ugly hacks
+        Method instantiate = cls.getMethod("fromResultSet", ResultSet.class);
+
+        try {
+            conn = Database.getConnection();
+            ps = conn.prepareStatement(query);
+
+            for (int i = 0; i < qvals.length; ++i) {
+                ps.setObject(i + 1, qvals[i]);
+            }
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                list.add(instantiate.invoke(null, rs));
+            }
+
+        } catch (IllegalAccessException e) {
+            throw new NoSuchMethodException("fromResultSet(<ResultSet>)");
+        } catch (InvocationTargetException e) {
+            throw new NoSuchMethodException("fromResultSet(<ResultSet>)");
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException e) {}
+            try { if (ps != null) ps.close(); } catch (SQLException e) {}
+            try { if (conn != null) conn.close(); } catch (SQLException e) {}
+        }
     }
 }
