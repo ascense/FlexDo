@@ -15,7 +15,9 @@
                         <a href="#" class="label label-info">${category.name}</a>
                         </c:forEach>
                     </small>
-                    <button type="button" class="close" aria-hidden="true">&times;</button>
+                    <a href="/FlexDo/delete?id=${task.memo.id}">
+                    <button type="button" class="close" aria-hidden="true" formaction="/FlexDo/delete?id=${task.memo.id}">&times;</button>
+                    </a>
                 </h4>
                 <p class="list-group-item-text">
                     ${task.memo.content}
@@ -36,19 +38,21 @@
             </h4>
         </div>
         <div class="panel-body collapse in" id="flexdo-task-collapse">
-            <div class="form-group">
-                <label for="taskNameInput">Nimi</label>
-                <input type="text" id="taskNameInput" class="form-control" placeholder="Nimi">
-            </div>
-            <div class="form-group">
-                <label for="taskTextInput">Kuvaus</label>
-                <textarea id="taskTextInput" class="form-control" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="taskPriorityInput">Prioriteetti</label>
-                <input type="number" id="taskPriorityInput" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Luo</button>
+            <form role="form" action="edit" method="POST">
+                <div class="form-group">
+                    <label for="inputName">Nimi</label>
+                    <input type="text" id="inputName" name="inputName" class="form-control" placeholder="Nimi">
+                </div>
+                <div class="form-group">
+                    <label for="inputContent">Kuvaus</label>
+                    <textarea id="inputContent" name="inputContent" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="inputPriority">Prioriteetti</label>
+                    <input type="number" id="inputPriority" name="inputPriority" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Luo</button>
+            </form>
         </div>
     </div>
     <div class="panel panel-default">

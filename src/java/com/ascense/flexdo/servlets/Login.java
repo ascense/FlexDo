@@ -22,11 +22,11 @@ public class Login extends AbstractServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response, boolean post)
             throws ServletException, IOException  {
         HttpSession session = request.getSession();
-        String user = request.getParameter("username");
-        String pass = request.getParameter("password");
+        String user = request.getParameter("inputName");
+        String pass = request.getParameter("inputPassword");
 
         if (request.getParameter("logout") != null) {
             session.removeAttribute("loggedIn");

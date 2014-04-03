@@ -22,7 +22,7 @@ public class FlexDo extends AbstractServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response, boolean post)
             throws ServletException, IOException  {
         response.setContentType("text/html;charset=UTF-8");
 
@@ -32,7 +32,7 @@ public class FlexDo extends AbstractServlet {
         }
 
         request.setAttribute("categories", Category.getCategories());
-        
+
         if (request.getParameter("memos") != null) {
             memosView(request, response);
         } else {

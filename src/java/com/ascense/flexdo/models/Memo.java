@@ -58,7 +58,6 @@ public class Memo {
     public List<Category> getCategories() {
         ArrayList<Category> cats = new ArrayList<Category>();
 
-
         try {
             Database.doQuery(
                 Category.class,
@@ -71,6 +70,45 @@ public class Memo {
         }
 
         return cats;
+    }
+
+    public boolean createMemo() {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+
+        try {
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "INSERT INTO memo (userid, memoname, content, created) VALUES(?,?,?,?) RETURNING memoid",
+                this.userid, this.memoname, this.content, this.created
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (!ids.isEmpty()) {
+            this.id = ids.get(0);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteMemo() {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+
+        try {
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "DELETE FROM memo WHERE memoid=? RETURNING memoid",
+                this.id
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        this.id = -1;
+        return !ids.isEmpty();
     }
 
     public static Memo getMemo(int id) {

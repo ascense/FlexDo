@@ -64,6 +64,23 @@ public class Task {
         return true;
     }
 
+    public boolean deleteTask() {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+
+        try {
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "DELETE FROM task WHERE memoid=? RETURNING memoid",
+                this.memoid
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return !ids.isEmpty();
+    }
+
     public static Task getTask(int memoid) {
         ArrayList<Task> tasks = new ArrayList<Task>();
 

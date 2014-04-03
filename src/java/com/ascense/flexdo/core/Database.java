@@ -14,6 +14,16 @@ import javax.sql.DataSource;
 
 
 public class Database {
+    public static class QueryInt {
+        public static Integer fromResultSet(ResultSet rs) {
+            try {
+                return new Integer(rs.getInt(1));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public static Connection getConnection()
             throws NamingException, SQLException {
         InitialContext cxt = new InitialContext();

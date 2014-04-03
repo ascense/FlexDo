@@ -20,7 +20,7 @@ public abstract class AbstractServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected abstract void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected abstract void processRequest(HttpServletRequest request, HttpServletResponse respons, boolean post)
             throws ServletException, IOException;
 
     protected Integer getLoggedIn(HttpServletRequest request) {
@@ -52,7 +52,11 @@ public abstract class AbstractServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        if(request.getCharacterEncoding() == null) {
+            request.setCharacterEncoding("UTF-8");
+        }
+
+        processRequest(request, response, false);
     }
 
     /**
@@ -67,6 +71,10 @@ public abstract class AbstractServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        if(request.getCharacterEncoding() == null) {
+            request.setCharacterEncoding("UTF-8");
+        }
+
+        processRequest(request, response, true);
     }
 }

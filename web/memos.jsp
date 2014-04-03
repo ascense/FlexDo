@@ -8,14 +8,16 @@
         <c:forEach var="memo" items="${memos}">
             <div class="list-group-item">
                 <h4 class="list-group-item-heading">
-                    <a href="#">${memo.name}</a>
+                    <a href="/FlexDo/edit?id=${memo.id}">${memo.name}</a>
                     <small>
                         &nbsp;
                         <c:forEach var="category" items="${memo.categories}">
                         <a href="#" class="label label-info">${category.name}</a>
                         </c:forEach>
                     </small>
+                    <a href="/FlexDo/delete?id=${memo.id}"
                     <button type="button" class="close" aria-hidden="true">&times;</button>
+                    </a>
                 </h4>
                 <p class="list-group-item-text">
                     ${memo.content}
