@@ -8,7 +8,7 @@
         <c:forEach var="task" items="${tasks}">
             <div class="list-group-item">
                 <h4 class="list-group-item-heading">
-                    <a href="#">${task.memo.name}</a>
+                    <a href="/FlexDo/edit?id=${task.memo.id}">${task.memo.name}</a>
                     <small>
                         &nbsp;
                         <c:forEach var="category" items="${task.memo.categories}">
@@ -36,7 +36,19 @@
             </h4>
         </div>
         <div class="panel-body collapse in" id="flexdo-task-collapse">
-            <jsp:include page="include/newtask.jsp" />
+            <div class="form-group">
+                <label for="taskNameInput">Nimi</label>
+                <input type="text" id="taskNameInput" class="form-control" placeholder="Nimi">
+            </div>
+            <div class="form-group">
+                <label for="taskTextInput">Kuvaus</label>
+                <textarea id="taskTextInput" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="taskPriorityInput">Prioriteetti</label>
+                <input type="number" id="taskPriorityInput" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Luo</button>
         </div>
     </div>
     <div class="panel panel-default">

@@ -46,16 +46,26 @@
 </nav>
 
 <div class="container">
-    <div class="row">
+    <div class="row col-md-12">
         <div class="col-md-12">
             <h2>${pageTitle}</h2>
         </div>
 
         <c:if test="${errorMsg != null}">
-        <div class="alert alert-danger">Virhe! ${errorMsg}</div>
+        <div class="col-md-12">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Virhe!</h3>
+                </div>
+                <div class="panel-body">
+                    ${errorMsg}
+                </div>
+            </div>
+        </div>
         </c:if>
-
-        <jsp:doBody/>
+    </div>
+    <div class="row col-md-12">
+    <jsp:doBody/>
     </div>
 </div>
 

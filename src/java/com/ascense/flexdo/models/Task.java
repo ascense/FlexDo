@@ -32,6 +32,9 @@ public class Task {
     }
 
     public void setMemo(Memo memo) {
+        if (memo.getId() != this.memoid) {
+            return;
+        }
         this.memo = memo;
     }
 

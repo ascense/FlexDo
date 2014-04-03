@@ -35,11 +35,11 @@ public class Memo {
         this.created = created;
     }
 
-    public int getID() {
+    public int getId() {
         return id;
     }
 
-    public int getUserID() {
+    public int getUserId() {
         return userid;
     }
 

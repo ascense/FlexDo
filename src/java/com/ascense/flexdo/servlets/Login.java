@@ -58,7 +58,7 @@ public class Login extends AbstractServlet {
         if (u != null) {
             PasswordHandler passHandler = new PasswordHandler();
             if (passHandler.verifyPassword(pass, u.getSalt(), u.getPassword())) {
-                session.setAttribute("loggedIn", user);
+                session.setAttribute("loggedIn", new Integer(u.getID()));
 
                 response.sendRedirect("index");
                 return;

@@ -23,9 +23,17 @@ public abstract class AbstractServlet extends HttpServlet {
     protected abstract void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException;
 
-    protected boolean isLoggedIn(HttpServletRequest request) {
+    protected Integer getLoggedIn(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if (session.getAttribute("loggedIn") != null) {
+        try {
+            return (Integer) (session.getAttribute("loggedIn"));
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    protected boolean isLoggedIn(HttpServletRequest request) {
+        if (getLoggedIn(request) != null) {
             return true;
         }
 
