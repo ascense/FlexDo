@@ -54,12 +54,14 @@
         <c:if test="${errorMsg != null}">
         <div class="col-md-12">
             <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Virhe!</h3>
-                </div>
-                <div class="panel-body">
-                    ${errorMsg}
-                </div>
+                <div class="panel-heading"><h3 class="panel-title">${errorMsg}</h3></div>
+            </div>
+        </div>
+        </c:if>
+        <c:if test="${infoMsg != null}">
+        <div class="col-md-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">${infoMsg}</div>
             </div>
         </div>
         </c:if>

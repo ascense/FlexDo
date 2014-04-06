@@ -25,17 +25,9 @@ public class Edit extends AbstractServlet {
             return;
         }
 
-        if (post == false) {
-            edit(request, response);
-        } else {
-            create(request, response);
-        }
-    }
-
-    private void edit(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
         Task task = null;
         Memo memo = null;
+
         try {
             int id = Integer.parseInt(request.getParameter("id"));
             task = Task.getTask(id);
@@ -44,11 +36,20 @@ public class Edit extends AbstractServlet {
             } else {
                 memo = Memo.getMemo(id);
             }
-
-            if (memo == null) {
-                request.setAttribute("errorMsg", "Annettua muistiota/askaretta ei löytynyt!");
-            }
         } catch (NumberFormatException e) {}
+
+        if (post == false) {
+            edit(request, response, memo, task);
+        } else {
+            update(request, response, memo, task);
+        }
+    }
+
+    private void edit(HttpServletRequest request, HttpServletResponse response, Memo memo, Task task)
+            throws ServletException, IOException {
+        if (memo == null) {
+            request.setAttribute("errorMsg", "Annettua muistiota/askaretta ei löytynyt!");
+        }
 
         setMemoAttrs(request, memo);
         setTaskAttrs(request, task);
@@ -57,29 +58,52 @@ public class Edit extends AbstractServlet {
         dispatcher.forward(request, response);
     }
 
-    private void create(HttpServletRequest request, HttpServletResponse response)
+    private void update(HttpServletRequest request, HttpServletResponse response, Memo memo, Task task)
             throws ServletException, IOException {
+        // TODO: Refactor
         String name = request.getParameter("inputName");
         String content = request.getParameter("inputContent");
+        String priority = request.getParameter("inputPriority");
 
-        if (name == null || name.isEmpty()) {
-            request.setAttribute("errorMsg", "Askareella/muistiolla täytyy olla nimi!");
-            setMemoAttrs(request, null);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("edit.jsp");
-            dispatcher.forward(request, response);
-            return;
-        }
-
-        Memo memo = new Memo(
+        if (memo == null) {
+            memo = new Memo(
                 -1,
                 getLoggedIn(request),
                 name,
                 content,
                 new Timestamp(new Date().getTime())
-        );
-        memo.createMemo();
+            );
+        } else {
+            memo.setName(name);
+            memo.setContent(content);
+        }
 
-        response.sendRedirect("edit?id=" + memo.getId());
+        setMemoAttrs(request, memo);
+        if (task != null) {
+            setTaskAttrs(request, task);
+        }
+
+        if (name == null || name.isEmpty()) {
+            request.setAttribute("errorMsg", "Askareella/muistiolla täytyy olla nimi!");
+        } else {
+            if (memo.getId() >= 0) {
+                if (memo.updateMemo()) {
+                    request.setAttribute("infoMsg", "Askare/muistio päivitetty");
+                } else {
+                    request.setAttribute("errorMsg", "Päivitys epäonnistui!");
+                }
+            } else {
+                memo.createMemo();
+                if (priority != null) {
+                    task = new Task(memo.getId(), 1, null);
+                    task.createTask();
+                    setTaskAttrs(request, task);
+                }
+            }
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("edit.jsp");
+        dispatcher.forward(request, response);
     }
 
     private void setMemoAttrs(HttpServletRequest request, Memo memo) {

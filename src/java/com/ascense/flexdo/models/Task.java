@@ -81,6 +81,23 @@ public class Task {
         return !ids.isEmpty();
     }
 
+    public boolean createTask() {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+
+        try {
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "INSERT INTO task (memoid, priority, closed) VALUES(?,?,?) RETURNING memoid",
+                this.memoid,this.priority, this.closed
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return !ids.isEmpty();
+    }
+
     public static Task getTask(int memoid) {
         ArrayList<Task> tasks = new ArrayList<Task>();
 

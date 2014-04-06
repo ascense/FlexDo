@@ -47,8 +47,16 @@ public class Memo {
         return memoname;
     }
 
+    public void setName(String name) {
+        this.memoname = name;
+    }
+
     public String getContent() {
         return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Timestamp getCreated() {
@@ -81,6 +89,27 @@ public class Memo {
                 ids,
                 "INSERT INTO memo (userid, memoname, content, created) VALUES(?,?,?,?) RETURNING memoid",
                 this.userid, this.memoname, this.content, this.created
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (!ids.isEmpty()) {
+            this.id = ids.get(0);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateMemo() {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+
+        try {
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "UPDATE memo SET memoname=?, content=? WHERE memoid=? RETURNING memoid",
+                this.memoname, this.content, this.id
             );
         } catch (Exception e) {
             throw new RuntimeException(e);
