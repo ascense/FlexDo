@@ -11,11 +11,11 @@
                 <h4 class="panel-title">
                     <c:if test="${priority >= 0}"><span class="badge">${priority}</span></c:if>
                     <button type="button" class="close" aria-hidden="true">&times;</button>
-                    <input type="text" class="form-control" name="inputName" id="inputName" value="${name}">
+                    <input type="text" class="form-control" name="inputName" id="inputName" value="<c:out value='${name}' escapeXml='true'/>">
                 </h4>
             </div>
             <div class="panel-body">
-                <textarea id="inputContent" name="inputContent" class="form-control" rows="3">${content}</textarea>
+                <textarea id="inputContent" name="inputContent" class="form-control" rows="3"><c:out value='${content}' escapeXml='true'/></textarea>
                 <br />
                 <div class="col-sm-4">
                     <a href="index">

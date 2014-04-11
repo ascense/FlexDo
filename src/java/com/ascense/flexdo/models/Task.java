@@ -13,8 +13,6 @@ public class Task {
     private int priority;
     private Timestamp closed;
 
-    private Memo memo;
-
     protected Task(ResultSet res) {
         try {
             this.memoid = res.getInt("memoid");
@@ -29,20 +27,6 @@ public class Task {
         this.memoid = memoid;
         this.priority = priority;
         this.closed = closed;
-    }
-
-    public void setMemo(Memo memo) {
-        if (memo.getId() != this.memoid) {
-            return;
-        }
-        this.memo = memo;
-    }
-
-    public Memo getMemo() {
-        if (this.memo == null) {
-            this.memo = Memo.getMemo(this.memoid);
-        }
-        return this.memo;
     }
 
     public int getMemoID() {

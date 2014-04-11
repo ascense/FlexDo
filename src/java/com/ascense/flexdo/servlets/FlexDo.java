@@ -33,26 +33,14 @@ public class FlexDo extends AbstractServlet {
 
         request.setAttribute("categories", Category.getCategories());
 
+        RequestDispatcher dispatcher;
         if (request.getParameter("memos") != null) {
-            memosView(request, response);
+            request.setAttribute("memos", Memo.getMemos(false));
+            dispatcher = request.getRequestDispatcher("memos.jsp");
         } else {
-            tasksView(request, response);
+            request.setAttribute("memos", Memo.getMemos(true));
+            dispatcher = request.getRequestDispatcher("tasks.jsp");
         }
-    }
-
-    private void tasksView(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setAttribute("tasks", Task.getTasks());
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("tasks.jsp");
-        dispatcher.forward(request, response);
-    }
-
-    private void memosView(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        request.setAttribute("memos", Memo.getMemos());
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("memos.jsp");
         dispatcher.forward(request, response);
     }
 

@@ -15,24 +15,45 @@ public class Memo {
     private String content;
     private Timestamp created;
 
+    private boolean taskCached;
+    private Task task;
+
     protected Memo(ResultSet res) {
         try {
-            this.id = res.getInt("memoid");
-            this.userid = res.getInt("userid");
-            this.memoname = res.getString("memoname");
-            this.content = res.getString("content");
-            this.created = res.getTimestamp("created");
+            initialize(
+                res.getInt("memoid"),
+                res.getInt("userid"),
+                res.getString("memoname"),
+                res.getString("content"),
+                res.getTimestamp("created")
+            );
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public Memo(int id, int userid, String memoname, String content, Timestamp created) {
+        initialize(id, userid, memoname, content, created);
+    }
+
+    /**
+     * Initialization function for constructors to wrap
+     * @param id
+     * @param userid
+     * @param memoname
+     * @param content
+     * @param created
+     */
+    private void initialize(int id, int userid, String memoname, String content, Timestamp created) {
         this.id = id;
         this.userid = userid;
         this.memoname = memoname;
         this.content = content;
         this.created = created;
+
+        // if id < 0, we are creating a new memo, so no task can be attached yet
+        this.taskCached = (id < 0);
+        this.task = null;
     }
 
     public int getId() {
@@ -78,6 +99,22 @@ public class Memo {
         }
 
         return cats;
+    }
+
+    public void setTask(Task task) {
+        if (task.getMemoID() != this.id) {
+            return;
+        }
+        this.taskCached = true;
+        this.task = task;
+    }
+
+    public Task getTask() {
+        if (this.taskCached == false) {
+            this.task = Task.getTask(this.id);
+            this.taskCached = true;
+        }
+        return this.task;
     }
 
     public boolean createMemo() {
@@ -161,8 +198,8 @@ public class Memo {
         }
     }
 
-    /*
-     * Get a list of all memos not part of a task
+    /**
+     * Get a list of all memos.
      */
     public static List<Memo> getMemos() {
         ArrayList<Memo> memos = new ArrayList<Memo>();
@@ -171,7 +208,39 @@ public class Memo {
             Database.doQuery(
                 Memo.class,
                 memos,
-                "SELECT * FROM memo WHERE memoid NOT IN (SELECT memoid FROM task)"
+                "SELECT * FROM memo"
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return memos;
+    }
+
+    /**
+     * Get a filtered list of memos.
+     *
+     * The returned list consists either of only memos with tasks attached,
+     * or of memos without tasks attached.
+     * Parameter taskMemos is used to determine filtering.
+     *
+     * @param taskMemos If true, search for task memos, if false, search for non-task memos
+     * @return
+     */
+    public static List<Memo> getMemos(boolean taskMemos) {
+        ArrayList<Memo> memos = new ArrayList<Memo>();
+        String query;
+        if (taskMemos) {
+            query = "SELECT * FROM memo WHERE memoid IN (SELECT memoid FROM task)";
+        } else {
+            query = "SELECT * FROM memo WHERE memoid NOT IN (SELECT memoid FROM task)";
+        }
+
+        try {
+            Database.doQuery(
+                Memo.class,
+                memos,
+                query
             );
         } catch (Exception e) {
             throw new RuntimeException(e);

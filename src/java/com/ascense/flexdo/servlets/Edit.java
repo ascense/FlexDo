@@ -25,103 +25,126 @@ public class Edit extends AbstractServlet {
             return;
         }
 
-        Task task = null;
         Memo memo = null;
-
         try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            task = Task.getTask(id);
-            if (task != null) {
-                memo = task.getMemo();
-            } else {
-                memo = Memo.getMemo(id);
-            }
+             memo = Memo.getMemo(Integer.parseInt(request.getParameter("id")));
         } catch (NumberFormatException e) {}
 
         if (post == false) {
-            edit(request, response, memo, task);
+            display(request, response, memo);
         } else {
-            update(request, response, memo, task);
+            update(request, response, memo);
         }
     }
 
-    private void edit(HttpServletRequest request, HttpServletResponse response, Memo memo, Task task)
+    /**
+     * Display the edit page for the given memo/task
+     *
+     * @param request
+     * @param response
+     * @param memo Memo to display for editing
+     * @param task Task if a task is attached to memo, otherwise null
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void display(HttpServletRequest request, HttpServletResponse response, Memo memo)
             throws ServletException, IOException {
         if (memo == null) {
             request.setAttribute("errorMsg", "Annettua muistiota/askaretta ei löytynyt!");
         }
 
         setMemoAttrs(request, memo);
-        setTaskAttrs(request, task);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("edit.jsp");
         dispatcher.forward(request, response);
     }
 
-    private void update(HttpServletRequest request, HttpServletResponse response, Memo memo, Task task)
+    private void update(HttpServletRequest request, HttpServletResponse response, Memo memo)
             throws ServletException, IOException {
-        // TODO: Refactor
         String name = request.getParameter("inputName");
         String content = request.getParameter("inputContent");
         String priority = request.getParameter("inputPriority");
 
         if (memo == null) {
-            memo = new Memo(
-                -1,
-                getLoggedIn(request),
-                name,
-                content,
-                new Timestamp(new Date().getTime())
-            );
+            createMemo(request, name, content, priority);
         } else {
-            memo.setName(name);
-            memo.setContent(content);
-        }
-
-        setMemoAttrs(request, memo);
-        if (task != null) {
-            setTaskAttrs(request, task);
+            updateMemo(request, memo, name, content, priority);
         }
 
         if (name == null || name.isEmpty()) {
             request.setAttribute("errorMsg", "Askareella/muistiolla täytyy olla nimi!");
-        } else {
-            if (memo.getId() >= 0) {
-                if (memo.updateMemo()) {
-                    request.setAttribute("infoMsg", "Askare/muistio päivitetty");
-                } else {
-                    request.setAttribute("errorMsg", "Päivitys epäonnistui!");
-                }
-            } else {
-                memo.createMemo();
-                if (priority != null) {
-                    task = new Task(memo.getId(), 1, null);
-                    task.createTask();
-                    setTaskAttrs(request, task);
-                }
-            }
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("edit.jsp");
         dispatcher.forward(request, response);
     }
 
+    private Memo createMemo(HttpServletRequest request, String name, String content, String priority) {
+        Memo memo = new Memo(
+            -1,
+            getLoggedIn(request),
+            name,
+            content,
+            new Timestamp(new Date().getTime())
+        );
+        memo.createMemo();
+
+        if (priority != null) {
+            Task task;
+            try {
+                task = new Task(memo.getId(), Integer.parseInt(priority), null);
+            } catch (NumberFormatException e) {
+                task = new Task(memo.getId(), 1, null);
+                request.setAttribute("errorMsg", "Askaareen prioriteetin täytyy olla kokonaisluku");
+            }
+            task.createTask();
+            memo.setTask(task);
+        }
+
+        setMemoAttrs(request, memo);
+
+        return memo;
+    }
+
+    private void updateMemo(HttpServletRequest request, Memo memo, String name, String content, String priority) {
+        if (memo != null) {
+            memo.setName(name);
+            memo.setContent(content);
+
+            setMemoAttrs(request, memo);
+
+            if (memo.updateMemo()) {
+                request.setAttribute("infoMsg", "Askare/muistio päivitetty");
+                return;
+            }
+        }
+        request.setAttribute("errorMsg", "Päivitys epäonnistui!");
+    }
+
+    /**
+     * Set page display attributes for a memo.
+     *
+     * If a task is attached to the memo, also set task attributes.
+     *
+     * @param request
+     * @param memo Memo to display
+     */
     private void setMemoAttrs(HttpServletRequest request, Memo memo) {
         if (memo == null) {
-            memo = new Memo(-1, getLoggedIn(request), "Uusi Askare", "", null);
+            request.setAttribute("title", " Muistion Muokkaus");
+            request.setAttribute("id", -1);
+            request.setAttribute("name", "Uusi Muistio");
+            return;
         }
         request.setAttribute("title", " Muistion Muokkaus");
         request.setAttribute("id", memo.getId());
         request.setAttribute("name", memo.getName());
         request.setAttribute("content", memo.getContent());
-    }
 
-    private void setTaskAttrs(HttpServletRequest request, Task task) {
-        if (task == null) {
-            return;
+        if (memo.getTask() != null) {
+            request.setAttribute("title", "Askareen Muokkaus");
+            request.setAttribute("priority", memo.getTask().getPriority());
         }
-        request.setAttribute("title", "Askareen Muokkaus");
-        request.setAttribute("priority", task.getPriority());
     }
 
     @Override

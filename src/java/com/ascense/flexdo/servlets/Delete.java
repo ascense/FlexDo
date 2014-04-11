@@ -1,7 +1,6 @@
 package com.ascense.flexdo.servlets;
 
 import com.ascense.flexdo.models.Memo;
-import com.ascense.flexdo.models.Task;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,22 +16,15 @@ public class Delete extends AbstractServlet {
             return;
         }
 
-        Task task = null;
         Memo memo = null;
         try {
-            int id = Integer.parseInt(request.getParameter("id"));
-            task = Task.getTask(id);
-            if (task != null) {
-                memo = task.getMemo();
-            } else {
-                memo = Memo.getMemo(id);
-            }
+             memo = Memo.getMemo(Integer.parseInt(request.getParameter("id")));
         } catch (NumberFormatException e) {}
 
-        if (task != null) {
-            task.deleteTask();
-        }
         if (memo != null) {
+            if (memo.getTask() != null) {
+                memo.getTask().deleteTask();
+            }
             memo.deleteMemo();
         }
 

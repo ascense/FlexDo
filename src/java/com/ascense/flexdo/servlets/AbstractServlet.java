@@ -7,9 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 public abstract class AbstractServlet extends HttpServlet {
-
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
