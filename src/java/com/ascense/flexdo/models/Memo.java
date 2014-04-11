@@ -201,14 +201,15 @@ public class Memo {
     /**
      * Get a list of all memos.
      */
-    public static List<Memo> getMemos() {
+    public static List<Memo> getMemos(int userid) {
         ArrayList<Memo> memos = new ArrayList<Memo>();
 
         try {
             Database.doQuery(
                 Memo.class,
                 memos,
-                "SELECT * FROM memo"
+                "SELECT * FROM memo WHERE userid=?",
+                userid
             );
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -227,20 +228,21 @@ public class Memo {
      * @param taskMemos If true, search for task memos, if false, search for non-task memos
      * @return
      */
-    public static List<Memo> getMemos(boolean taskMemos) {
+    public static List<Memo> getMemos(int userid, boolean taskMemos) {
         ArrayList<Memo> memos = new ArrayList<Memo>();
         String query;
         if (taskMemos) {
-            query = "SELECT * FROM memo WHERE memoid IN (SELECT memoid FROM task)";
+            query = "SELECT * FROM memo WHERE memoid IN (SELECT memoid FROM task) AND userid=?";
         } else {
-            query = "SELECT * FROM memo WHERE memoid NOT IN (SELECT memoid FROM task)";
+            query = "SELECT * FROM memo WHERE memoid NOT IN (SELECT memoid FROM task) AND userid=?";
         }
 
         try {
             Database.doQuery(
                 Memo.class,
                 memos,
-                query
+                query,
+                userid
             );
         } catch (Exception e) {
             throw new RuntimeException(e);

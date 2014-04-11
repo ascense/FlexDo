@@ -35,10 +35,10 @@ public class FlexDo extends AbstractServlet {
 
         RequestDispatcher dispatcher;
         if (request.getParameter("memos") != null) {
-            request.setAttribute("memos", Memo.getMemos(false));
+            request.setAttribute("memos", Memo.getMemos(getLoggedIn(request).getId(), false));
             dispatcher = request.getRequestDispatcher("memos.jsp");
         } else {
-            request.setAttribute("memos", Memo.getMemos(true));
+            request.setAttribute("memos", Memo.getMemos(getLoggedIn(request).getId(), true));
             dispatcher = request.getRequestDispatcher("tasks.jsp");
         }
         dispatcher.forward(request, response);
