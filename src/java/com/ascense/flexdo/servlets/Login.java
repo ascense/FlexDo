@@ -30,6 +30,8 @@ public class Login extends AbstractServlet {
 
         if (request.getParameter("logout") != null) {
             session.removeAttribute("loggedIn");
+            response.sendRedirect("login");
+            return;
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
@@ -58,8 +60,7 @@ public class Login extends AbstractServlet {
         if (u != null) {
             PasswordHandler passHandler = new PasswordHandler();
             if (passHandler.verifyPassword(pass, u.getSalt(), u.getPassword())) {
-                session.setAttribute("loggedIn", new Integer(u.getID()));
-
+                session.setAttribute("loggedIn", u);
                 response.sendRedirect("index");
                 return;
             }

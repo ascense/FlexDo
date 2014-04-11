@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#flexdo-navbar">
@@ -38,9 +38,12 @@
                     <button type="submit" class="btn btn-default" disabled>Hae</button>
                 </div>
             </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="login?logout">Kirjaudu Ulos</a></li>
-            </ul>
+            <c:if test="${username != null}">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="login?logout">Kirjaudu Ulos</a></li>
+                </ul>
+                <p class="small navbar-text navbar-right"><c:out value="${username}" escapeXml="true"/></p>
+            </c:if>
         </div>
     </div>
 </nav>

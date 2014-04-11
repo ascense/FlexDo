@@ -82,7 +82,7 @@ public class Edit extends AbstractServlet {
     private Memo createMemo(HttpServletRequest request, String name, String content, String priority) {
         Memo memo = new Memo(
             -1,
-            getLoggedIn(request),
+            getLoggedIn(request).getID(),
             name,
             content,
             new Timestamp(new Date().getTime())

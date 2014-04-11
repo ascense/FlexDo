@@ -1,5 +1,6 @@
 package com.ascense.flexdo.servlets;
 
+import com.ascense.flexdo.models.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,10 +22,10 @@ public abstract class AbstractServlet extends HttpServlet {
     protected abstract void processRequest(HttpServletRequest request, HttpServletResponse respons, boolean post)
             throws ServletException, IOException;
 
-    protected Integer getLoggedIn(HttpServletRequest request) {
+    protected User getLoggedIn(HttpServletRequest request) {
         HttpSession session = request.getSession();
         try {
-            return (Integer) (session.getAttribute("loggedIn"));
+            return (User) (session.getAttribute("loggedIn"));
         } catch (ClassCastException e) {
             return null;
         }
@@ -53,6 +54,9 @@ public abstract class AbstractServlet extends HttpServlet {
         if(request.getCharacterEncoding() == null) {
             request.setCharacterEncoding("UTF-8");
         }
+        if (isLoggedIn(request)) {
+            request.setAttribute("username", getLoggedIn(request).getName());
+        }
 
         processRequest(request, response, false);
     }
@@ -71,6 +75,9 @@ public abstract class AbstractServlet extends HttpServlet {
             throws ServletException, IOException {
         if(request.getCharacterEncoding() == null) {
             request.setCharacterEncoding("UTF-8");
+        }
+        if (isLoggedIn(request)) {
+            request.setAttribute("username", getLoggedIn(request).getName());
         }
 
         processRequest(request, response, true);
