@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group">
                     <label for="inputPassword">Salasana</label>
-                    <input id="inputPassword" name="inputPassword" class="form-control" placeholder="Salasana">
+                    <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Salasana">
                 </div>
                 <button type="submit" class="btn btn-info btn-block">Luo</button>
             </form>

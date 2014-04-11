@@ -232,9 +232,9 @@ public class Memo {
         ArrayList<Memo> memos = new ArrayList<Memo>();
         String query;
         if (taskMemos) {
-            query = "SELECT * FROM memo WHERE memoid IN (SELECT memoid FROM task) AND userid=?";
+            query = "SELECT * FROM memo JOIN task ON memo.memoid = task.memoid WHERE memo.memoid IN (SELECT memoid FROM task) AND userid=? ORDER BY priority, memoname";
         } else {
-            query = "SELECT * FROM memo WHERE memoid NOT IN (SELECT memoid FROM task) AND userid=?";
+            query = "SELECT * FROM memo WHERE memoid NOT IN (SELECT memoid FROM task) AND userid=? ORDER BY memoname";
         }
 
         try {
