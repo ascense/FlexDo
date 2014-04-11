@@ -51,13 +51,7 @@ public abstract class AbstractServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if(request.getCharacterEncoding() == null) {
-            request.setCharacterEncoding("UTF-8");
-        }
-        if (isLoggedIn(request)) {
-            request.setAttribute("username", getLoggedIn(request).getName());
-        }
-
+        pageSetup(request, response);
         processRequest(request, response, false);
     }
 
@@ -73,13 +67,20 @@ public abstract class AbstractServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        pageSetup(request, response);
+        processRequest(request, response, true);
+    }
+
+    private void pageSetup(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         if(request.getCharacterEncoding() == null) {
             request.setCharacterEncoding("UTF-8");
         }
         if (isLoggedIn(request)) {
             request.setAttribute("username", getLoggedIn(request).getName());
+            if (getLoggedIn(request).getId() == 1) {
+                request.setAttribute("admin", 1);
+            }
         }
-
-        processRequest(request, response, true);
     }
 }

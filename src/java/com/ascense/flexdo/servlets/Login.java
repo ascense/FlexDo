@@ -47,7 +47,7 @@ public class Login extends AbstractServlet {
             return;
         }
 
-        request.setAttribute("username", user);
+        request.setAttribute("inputName", user);
 
         if (pass == null || "".equals(pass)) {
             request.setAttribute("errorMsg", "Kirjautuminen epäonnistui! Et antanut salasanaa.");

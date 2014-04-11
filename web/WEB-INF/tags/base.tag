@@ -1,4 +1,4 @@
-<%@tag description="Generic template for FlexDo pages" pageEncoding="UTF-8"%>
+<%@tag description="Generic template for FlexDo pages" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@attribute name="pageTitle"%>
 <!DOCTYPE html>
@@ -31,6 +31,9 @@
                 <!-- Not yet implemented
                 <li<c:if test="${pageTitle == 'Luokat'}"> class="active"</c:if>><a href="#">Luokat</a></li>
                 !-->
+                <c:if test="${admin != null}">
+                <li<c:if test="${pageTitle == 'Ylläpito'}"> class="active"</c:if>><a href="/FlexDo/admin">Ylläpito</a></li>
+                </c:if>
             </ul>
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">

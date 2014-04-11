@@ -31,7 +31,7 @@ public class User {
         this.salt = salt;
     }
 
-    public int getID() {
+    public int getId() {
         return id;
     }
 
@@ -45,6 +45,27 @@ public class User {
 
     public String getSalt() {
         return salt;
+    }
+
+    public boolean createUser() {
+        if (getUser(this.username) != null) {
+            return false;
+        }
+
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+
+        try {
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "INSERT INTO users (username, pass, salt) VALUES(?,?,?) RETURNING userid",
+                this.username, this.pass, this.salt
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return !ids.isEmpty();
     }
 
     public static User getUser(String name) {

@@ -50,15 +50,20 @@ public class PasswordHandler {
             str += String.format("%2x", arr[i]).replace(' ', '0');
         }
 
-        if (str.startsWith("00")) {
-            str = str.substring(2);
-        }
-
         return str;
     }
 
     public static byte[] fromHexString(String str) {
-        BigInteger b = new BigInteger(str, 16);
-        return b.toByteArray();
+        if (str.length() % 2 != 0) {
+            // TODO: Error message needs clarification
+            throw new NumberFormatException("Expected hexadecimal string with full bytes");
+        }
+
+        byte bytes[] = new byte[str.length() / 2];
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = Integer.decode("0x" + str.substring(i * 2, i * 2 + 2)).byteValue();
+        }
+
+        return bytes;
     }
 }
