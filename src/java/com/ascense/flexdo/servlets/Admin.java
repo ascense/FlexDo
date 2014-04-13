@@ -89,8 +89,8 @@ public class Admin extends AbstractServlet {
         User u = new User(
                 -1,
                 user,
-                passHandler.toHexString(hash),
-                passHandler.toHexString(salt)
+                PasswordHandler.toHexString(hash),
+                PasswordHandler.toHexString(salt)
         );
         return u.createUser();
     }
