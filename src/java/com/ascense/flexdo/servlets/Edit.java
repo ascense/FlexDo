@@ -111,6 +111,15 @@ public class Edit extends AbstractServlet {
             memo.setName(name);
             memo.setContent(content);
 
+            if (priority != null) {
+                try {
+                    memo.getTask().setPriority(Integer.parseInt(priority));
+                    memo.getTask().updateTask();
+                } catch (NumberFormatException e) {
+                    request.setAttribute("errorMsg", "Askaareen prioriteetin täytyy olla kokonaisluku");
+                }
+            }
+
             setMemoAttrs(request, memo);
 
             if (memo.updateMemo()) {
@@ -133,17 +142,17 @@ public class Edit extends AbstractServlet {
         if (memo == null) {
             request.setAttribute("title", " Muistion Muokkaus");
             request.setAttribute("id", -1);
-            request.setAttribute("name", "Uusi Muistio");
+            request.setAttribute("inputName", "Uusi Muistio");
             return;
         }
         request.setAttribute("title", " Muistion Muokkaus");
         request.setAttribute("id", memo.getId());
-        request.setAttribute("name", memo.getName());
-        request.setAttribute("content", memo.getContent());
+        request.setAttribute("inputName", memo.getName());
+        request.setAttribute("inputContent", memo.getContent());
 
         if (memo.getTask() != null) {
             request.setAttribute("title", "Askareen Muokkaus");
-            request.setAttribute("priority", memo.getTask().getPriority());
+            request.setAttribute("inputPriority", memo.getTask().getPriority());
         }
     }
 

@@ -153,7 +153,6 @@ public class Memo {
         }
 
         if (!ids.isEmpty()) {
-            this.id = ids.get(0);
             return true;
         }
         return false;

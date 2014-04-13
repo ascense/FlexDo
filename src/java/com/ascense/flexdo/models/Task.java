@@ -37,6 +37,10 @@ public class Task {
         return priority;
     }
 
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
     public Timestamp getClosed() {
         return closed;
     }
@@ -80,6 +84,26 @@ public class Task {
         }
 
         return !ids.isEmpty();
+    }
+
+    public boolean updateTask() {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+
+        try {
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "UPDATE task SET priority=? WHERE memoid=? RETURNING memoid",
+                this.priority, this.memoid
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (!ids.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     public static Task getTask(int memoid) {

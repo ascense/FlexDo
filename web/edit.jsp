@@ -9,21 +9,29 @@
             <input type="hidden" name="id" value="${id}">
             <div class="panel-heading" id="title-edit">
                 <h4 class="panel-title">
-                    <c:if test="${priority >= 0}"><span class="badge">${priority}</span></c:if>
-                    <button type="button" class="close" aria-hidden="true">&times;</button>
-                    <input type="text" class="form-control" name="inputName" id="inputName" value="<c:out value='${name}' escapeXml='true'/>">
+                    <input type="text" class="form-control" name="inputName" id="inputName" value="<c:out value='${inputName}' escapeXml='true'/>">
                 </h4>
             </div>
             <div class="panel-body">
-                <textarea id="inputContent" name="inputContent" class="form-control" rows="3"><c:out value='${content}' escapeXml='true'/></textarea>
-                <br />
+                <textarea id="inputContent" name="inputContent" class="form-control" rows="3"><c:out value='${inputContent}' escapeXml='true'/></textarea>
+                <div class="form-group">
+                    <c:if test="${inputPriority >= 0}">
+                    <label class="control-label" for="inputPriority">Prioriteetti</label>
+                    <input type="number" id="inputPriority" name="inputPriority" class="form-control" value="${inputPriority}">
+                    </c:if>
+                </div>
+                <div class="col-sm-6">
+                    <button type="submit" class="btn btn-primary btn-block">Tallenna Muutokset</button>
+                </div>
                 <div class="col-sm-4">
                     <a href="index">
                         <button type="button" class="btn btn-warning btn-block">Peruuta</button>
                     </a>
                 </div>
-                <div class="col-sm-8">
-                    <button type="submit" class="btn btn-primary btn-block">Tallenna Muutokset</button>
+                <div class="col-sm-2">
+                    <a href="delete?id=${id}">
+                        <button type="button" class="btn btn-danger btn-block">Poista</button>
+                    </a>
                 </div>
             </div>
         </form>

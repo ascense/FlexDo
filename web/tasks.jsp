@@ -9,6 +9,7 @@
             <div class="list-group-item">
                 <h4 class="list-group-item-heading">
                     <a href="/FlexDo/edit?id=${memo.id}"><c:out value='${memo.name}' escapeXml='true'/></a>
+                    <span class="badge"><c:out value='${memo.task.priority}' escapeXml='true'/></span>
                     <small>
                         &nbsp;
                         <c:forEach var="category" items="${memo.categories}">
