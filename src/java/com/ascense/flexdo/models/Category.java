@@ -31,11 +31,11 @@ public class Category {
         this.parentid = parentid;
     }
 
-    public int getID() {
+    public int getId() {
         return id;
     }
 
-    public int getUserID() {
+    public int getUserId() {
         return userid;
     }
 
@@ -43,7 +43,7 @@ public class Category {
         return catname;
     }
 
-    public int getParentID() {
+    public int getParentId() {
         return parentid;
     }
 
@@ -75,11 +75,16 @@ public class Category {
         }
     }
 
-    public static List<Category> getCategories() {
+    public static List<Category> getCategories(int userid) {
         ArrayList<Category> cats = new ArrayList<Category>();
 
         try {
-            Database.doQuery(Category.class, cats, "SELECT * FROM category");
+            Database.doQuery(
+                Category.class,
+                cats,
+                "SELECT * FROM category WHERE userid=?",
+                userid
+            );
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

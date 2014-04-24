@@ -253,4 +253,18 @@ public class Memo {
     public static Memo fromResultSet(ResultSet rs) {
         return new Memo(rs);
     }
+
+    /**
+     * Wrapper function for use in JSP files
+     */
+    public static boolean hasCategory(Memo memo, Category cat) {
+        if (memo == null || cat == null) return false;
+
+        for (Category iCat : memo.getCategories()) {
+            if (iCat.getId() == cat.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

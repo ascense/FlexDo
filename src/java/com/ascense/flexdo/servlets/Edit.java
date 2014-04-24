@@ -1,5 +1,6 @@
 package com.ascense.flexdo.servlets;
 
+import com.ascense.flexdo.models.Category;
 import com.ascense.flexdo.models.Memo;
 import com.ascense.flexdo.models.Task;
 import java.io.IOException;
@@ -12,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 
 public class Edit extends AbstractServlet {
-    /*
-     * Edit existing task/memo
-     */
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response, boolean post)
             throws ServletException, IOException {
@@ -29,6 +27,10 @@ public class Edit extends AbstractServlet {
         try {
              memo = Memo.getMemo(Integer.parseInt(request.getParameter("id")));
         } catch (NumberFormatException e) {}
+
+        // set shared attributes
+        request.setAttribute("memo", memo);
+        request.setAttribute("categories", Category.getCategories(getLoggedIn(request).getId()));
 
         if (post == false) {
             display(request, response, memo);
@@ -59,6 +61,9 @@ public class Edit extends AbstractServlet {
         dispatcher.forward(request, response);
     }
 
+    /*
+     * Edit existing task/memo
+     */
     private void update(HttpServletRequest request, HttpServletResponse response, Memo memo)
             throws ServletException, IOException {
         String name = request.getParameter("inputName");
@@ -139,18 +144,19 @@ public class Edit extends AbstractServlet {
      * @param memo Memo to display
      */
     private void setMemoAttrs(HttpServletRequest request, Memo memo) {
+        request.setAttribute("title", " Muistion Muokkaus");
+
         if (memo == null) {
-            request.setAttribute("title", " Muistion Muokkaus");
             request.setAttribute("id", -1);
             request.setAttribute("inputName", "Uusi Muistio");
             return;
         }
-        request.setAttribute("title", " Muistion Muokkaus");
         request.setAttribute("id", memo.getId());
         request.setAttribute("inputName", memo.getName());
         request.setAttribute("inputContent", memo.getContent());
 
         if (memo.getTask() != null) {
+            // override title
             request.setAttribute("title", "Askareen Muokkaus");
             request.setAttribute("inputPriority", memo.getTask().getPriority());
         }

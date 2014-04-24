@@ -30,16 +30,18 @@ public class FlexDo extends AbstractServlet {
             return;
         }
 
-        request.setAttribute("categories", Category.getCategories());
+        int userid = getLoggedIn(request).getId();
+
+        request.setAttribute("categories", Category.getCategories(userid));
 
         RequestDispatcher dispatcher;
         if (request.getParameter("memos") != null) {
             // display memo listing
-            request.setAttribute("memos", Memo.getMemos(getLoggedIn(request).getId(), false));
+            request.setAttribute("memos", Memo.getMemos(userid, false));
             dispatcher = request.getRequestDispatcher("memos.jsp");
         } else {
             // display task listing
-            request.setAttribute("memos", Memo.getMemos(getLoggedIn(request).getId(), true));
+            request.setAttribute("memos", Memo.getMemos(userid, true));
             dispatcher = request.getRequestDispatcher("tasks.jsp");
         }
         dispatcher.forward(request, response);

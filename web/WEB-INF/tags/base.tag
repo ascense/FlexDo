@@ -28,17 +28,17 @@
             <ul class="nav navbar-nav">
                 <li<c:if test="${pageTitle == 'Askareet'}"> class="active"</c:if>><a href="/FlexDo/index">Askareet</a></li>
                 <li<c:if test="${pageTitle == 'Muistiot'}"> class="active"</c:if>><a href="/FlexDo/index?memos">Muistiot</a></li>
-                <!-- Not yet implemented
                 <li<c:if test="${pageTitle == 'Luokat'}"> class="active"</c:if>><a href="#">Luokat</a></li>
-                !-->
                 <c:if test="${admin != null}">
                 <li<c:if test="${pageTitle == 'Ylläpito'}"> class="active"</c:if>><a href="/FlexDo/admin">Ylläpito</a></li>
                 </c:if>
             </ul>
             <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
+                <div class="input-group">
                     <input type="text" class="form-control" placeholder="Etsi..." disabled>
-                    <button type="submit" class="btn btn-default" disabled>Hae</button>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default" disabled>Hae</button>
+                    </span>
                 </div>
             </form>
             <c:if test="${username != null}">
