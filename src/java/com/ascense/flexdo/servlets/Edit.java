@@ -112,6 +112,11 @@ public class Edit extends AbstractServlet {
 
     private void updateMemo(HttpServletRequest request, Memo memo, String name, String content, String priority) {
         if (memo != null) {
+            if (memo.getTask() != null && memo.getTask().getClosed() != null) {
+                request.setAttribute("errorMsg", "Suljettua askaretta ei voida muokata!");
+                return;
+            }
+            
             memo.setName(name);
             memo.setContent(content);
 
@@ -158,6 +163,12 @@ public class Edit extends AbstractServlet {
             // override title
             request.setAttribute("title", "Askareen Muokkaus");
             request.setAttribute("inputPriority", memo.getTask().getPriority());
+            if (memo.getTask().getClosed() != null) {
+                request.setAttribute("closed", true);
+                request.setAttribute("infoMsg", "Askare on suljettu, muutoksien tekeminen ei ole sallittua.");
+            } else {
+                request.setAttribute("closed", false);
+            }
         }
     }
 

@@ -7,6 +7,9 @@
 <div class="col-md-12">
     <div class="panel panel-default">
         <form role="form" action="edit" method="POST">
+            <c:if test="${closed == true}">
+            <fieldset disabled="true">
+            </c:if>
             <input type="hidden" name="id" value="${id}">
             <div class="panel-heading" id="title-edit">
                 <h4 class="panel-title">
@@ -40,12 +43,26 @@
                         <button type="button" class="btn btn-warning btn-block">Peruuta</button>
                     </a>
                 </div>
-                <div class="col-sm-2">
-                    <a href="delete?id=${id}">
-                        <button type="button" class="btn btn-danger btn-block">Poista</button>
-                    </a>
-                </div>
+                <c:choose>
+                <c:when test="${closed == false}">
+                    <div class="col-sm-2">
+                        <a href="delete?id=${id}">
+                            <button type="button" class="btn btn-warning btn-block">Sulje</button>
+                        </a>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="col-sm-2">
+                        <a href="delete?id=${id}">
+                            <button type="button" class="btn btn-danger btn-block">Poista</button>
+                        </a>
+                    </div>
+                </c:otherwise>
+                </c:choose>
             </div>
+            <c:if test="${closed == true}">
+            </fieldset>
+            </c:if>
         </form>
     </div>
 </div>
