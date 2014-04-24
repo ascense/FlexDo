@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>${pageTitle} - FlexDo</title>
+    <title><c:out value='${pageTitle}' escapeXml='true'/> - FlexDo</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.css" rel="stylesheet">
@@ -28,7 +28,7 @@
             <ul class="nav navbar-nav">
                 <li<c:if test="${pageTitle == 'Askareet'}"> class="active"</c:if>><a href="/FlexDo/index">Askareet</a></li>
                 <li<c:if test="${pageTitle == 'Muistiot'}"> class="active"</c:if>><a href="/FlexDo/index?memos">Muistiot</a></li>
-                <li<c:if test="${pageTitle == 'Luokat'}"> class="active"</c:if>><a href="#">Luokat</a></li>
+                <li<c:if test="${pageTitle == 'Luokat'}"> class="active"</c:if>><a href="/FlexDo/categories">Luokat</a></li>
                 <c:if test="${admin != null}">
                 <li<c:if test="${pageTitle == 'Ylläpito'}"> class="active"</c:if>><a href="/FlexDo/admin">Ylläpito</a></li>
                 </c:if>
@@ -54,7 +54,7 @@
 <div class="container">
     <div class="row col-md-12">
         <div class="col-md-12">
-            <h2>${pageTitle}</h2>
+            <h2><c:out value='${pageTitle}' escapeXml='true'/></h2>
         </div>
 
         <c:if test="${errorMsg != null}">

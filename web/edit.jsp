@@ -17,7 +17,7 @@
                 <div class="form-group">
                     <textarea id="inputContent" name="inputContent" class="form-control" rows="3"><c:out value='${inputContent}' escapeXml='true'/></textarea>
                 </div>
-                <c:if test="${inputPriority >= 0}">
+                <c:if test="${not empty inputPriority}">
                     <div class="form-group">
                         <label class="control-label" for="inputPriority">Prioriteetti</label>
                         <input type="number" id="inputPriority" name="inputPriority" class="form-control" value="${inputPriority}">

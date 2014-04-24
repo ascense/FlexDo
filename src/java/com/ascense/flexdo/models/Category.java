@@ -54,6 +54,27 @@ public class Category {
         return null;
     }
 
+    /**
+     * Get a list of all memos in this category.
+     */
+    public List<Memo> getMemos(int userid) {
+        ArrayList<Memo> memos = new ArrayList<Memo>();
+
+        try {
+            Database.doQuery(
+                Memo.class,
+                memos,
+                "SELECT * FROM memo_category JOIN memo ON memo_category.memoid = memo.memoid WHERE catid=? AND userid=?",
+                this.id,
+                userid
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return memos;
+    }
+
     public static Category getCategory(int id) {
         ArrayList<Category> cats = new ArrayList<Category>();
 

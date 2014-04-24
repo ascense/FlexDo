@@ -10,7 +10,7 @@
     <div class="panel-body collapse<c:if test="${not empty categories}"> in</c:if>" id="flexdo-class-collapse">
         <ul class="list-unstyled">
             <c:forEach var="category" items="${categories}">
-            <li><a href="#"><c:out value='${category.name}' escapeXml='true'/></a></li>
+            <li><a href="/FlexDo/category?id=${category.id}"><c:out value='${category.name}' escapeXml='true'/></a></li>
             </c:forEach>
         </ul>
     </div>

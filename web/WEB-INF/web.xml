@@ -20,13 +20,17 @@
         <servlet-name>Admin</servlet-name>
         <servlet-class>com.ascense.flexdo.servlets.Admin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Categories</servlet-name>
+        <servlet-class>com.ascense.flexdo.servlets.Categories</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListCategory</servlet-name>
+        <servlet-class>com.ascense.flexdo.servlets.ListCategory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/login</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>FlexDo</servlet-name>
-        <url-pattern>/index</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Edit</servlet-name>
@@ -39,6 +43,18 @@
     <servlet-mapping>
         <servlet-name>Admin</servlet-name>
         <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Categories</servlet-name>
+        <url-pattern>/categories</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FlexDo</servlet-name>
+        <url-pattern>/index</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListCategory</servlet-name>
+        <url-pattern>/category</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
