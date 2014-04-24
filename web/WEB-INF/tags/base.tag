@@ -29,6 +29,7 @@
                 <li<c:if test="${pageTitle == 'Askareet'}"> class="active"</c:if>><a href="/FlexDo/index">Askareet</a></li>
                 <li<c:if test="${pageTitle == 'Muistiot'}"> class="active"</c:if>><a href="/FlexDo/index?memos">Muistiot</a></li>
                 <li<c:if test="${pageTitle == 'Luokat'}"> class="active"</c:if>><a href="/FlexDo/categories">Luokat</a></li>
+                <li<c:if test="${pageTitle == 'Arkistoidut Tehtävät'}"> class="active"</c:if>><a href="/FlexDo/index?archive">Arkisto</a></li>
                 <c:if test="${admin != null}">
                 <li<c:if test="${pageTitle == 'Ylläpito'}"> class="active"</c:if>><a href="/FlexDo/admin">Ylläpito</a></li>
                 </c:if>

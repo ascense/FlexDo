@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -32,8 +33,14 @@ public class Memo {
         }
     }
 
-    public Memo(int id, int userid, String memoname, String content, Timestamp created) {
-        initialize(id, userid, memoname, content, created);
+    public Memo(int id, int userid, String memoname, String content) {
+        initialize(
+            id,
+            userid,
+            memoname,
+            content,
+            new Timestamp(new Date().getTime())
+        );
     }
 
     /**
@@ -227,14 +234,9 @@ public class Memo {
      * @param taskMemos If true, search for task memos, if false, search for non-task memos
      * @return
      */
-    public static List<Memo> getMemos(int userid, boolean taskMemos) {
+    public static List<Memo> getFilteredMemos(int userid) {
         ArrayList<Memo> memos = new ArrayList<Memo>();
-        String query;
-        if (taskMemos) {
-            query = "SELECT * FROM memo JOIN task ON memo.memoid = task.memoid WHERE memo.memoid IN (SELECT memoid FROM task) AND userid=? ORDER BY priority, memoname";
-        } else {
-            query = "SELECT * FROM memo WHERE memoid NOT IN (SELECT memoid FROM task) AND userid=? ORDER BY memoname";
-        }
+        String query = "SELECT * FROM memo WHERE memoid NOT IN (SELECT memoid FROM task) AND userid=? ORDER BY memoname";
 
         try {
             Database.doQuery(

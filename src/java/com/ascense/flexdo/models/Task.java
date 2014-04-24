@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -45,11 +46,8 @@ public class Task {
         return closed;
     }
 
-    public boolean isClosed() {
-        if (getClosed() == null) {
-            return false;
-        }
-        return true;
+    public void setClosed() {
+        this.closed = new Timestamp(new Date().getTime());
     }
 
     public boolean deleteTask() {
@@ -93,8 +91,8 @@ public class Task {
             Database.doQuery(
                 Database.QueryInt.class,
                 ids,
-                "UPDATE task SET priority=? WHERE memoid=? RETURNING memoid",
-                this.priority, this.memoid
+                "UPDATE task SET priority=?, closed=? WHERE memoid=? RETURNING memoid",
+                this.priority, this.closed, this.memoid
             );
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -137,6 +135,30 @@ public class Task {
         }
 
         return tasks;
+    }
+
+    /*
+     * Get a list of memos with tasks attached
+     */
+    public static List<Memo> getFilteredMemos(int userid, boolean closed) {
+        ArrayList<Memo> memos = new ArrayList<Memo>();
+        String query = "SELECT * FROM memo JOIN task ON memo.memoid = task.memoid WHERE memo.memoid IN (SELECT memoid FROM task)  AND ";
+        // show only closed, or show only open
+        query += (closed) ? "closed IS NOT NULL" : "closed IS NULL";
+        query += " AND userid=? ORDER BY priority, memoname";
+
+        try {
+            Database.doQuery(
+                Memo.class,
+                memos,
+                query,
+                userid
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return memos;
     }
 
     public static Task fromResultSet(ResultSet rs) {

@@ -2,6 +2,7 @@ package com.ascense.flexdo.servlets;
 
 import com.ascense.flexdo.models.Category;
 import com.ascense.flexdo.models.Memo;
+import com.ascense.flexdo.models.Task;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,13 +38,20 @@ public class FlexDo extends AbstractServlet {
         RequestDispatcher dispatcher;
         if (request.getParameter("memos") != null) {
             // display memo listing
-            request.setAttribute("memos", Memo.getMemos(userid, false));
+            request.setAttribute("memos", Memo.getFilteredMemos(userid));
             dispatcher = request.getRequestDispatcher("memos.jsp");
+
+        } else if (request.getParameter("archive") != null) {
+            // display closed task listing
+            request.setAttribute("memos", Task.getFilteredMemos(userid, true));
+            dispatcher = request.getRequestDispatcher("archive.jsp");
+
         } else {
-            // display task listing
-            request.setAttribute("memos", Memo.getMemos(userid, true));
+            // display open task listing
+            request.setAttribute("memos", Task.getFilteredMemos(userid, false));
             dispatcher = request.getRequestDispatcher("tasks.jsp");
         }
+
         dispatcher.forward(request, response);
     }
 
