@@ -23,26 +23,29 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/FlexDo/index">FlexDo</a>
+            <c:if test="${username != null}">
+                <p class="visible-xs visible-sm small navbar-text"><c:out value="${username}" escapeXml="true"/></p>
+            </c:if>
         </div>
         <div class="collapse navbar-collapse" id="flexdo-navbar">
-            <ul class="nav navbar-nav">
-                <li<c:if test="${pageTitle == 'Askareet'}"> class="active"</c:if>><a href="/FlexDo/index">Askareet</a></li>
-                <li<c:if test="${pageTitle == 'Muistiot'}"> class="active"</c:if>><a href="/FlexDo/index?memos">Muistiot</a></li>
-                <li<c:if test="${pageTitle == 'Luokat'}"> class="active"</c:if>><a href="/FlexDo/categories">Luokat</a></li>
-                <li<c:if test="${pageTitle == 'Arkistoidut Tehtävät'}"> class="active"</c:if>><a href="/FlexDo/index?archive">Arkisto</a></li>
-                <c:if test="${admin != null}">
-                <li<c:if test="${pageTitle == 'Ylläpito'}"> class="active"</c:if>><a href="/FlexDo/admin">Ylläpito</a></li>
-                </c:if>
-            </ul>
-            <form class="navbar-form navbar-left" role="search">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Etsi..." disabled>
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-default" disabled>Hae</button>
-                    </span>
-                </div>
-            </form>
             <c:if test="${username != null}">
+                <ul class="nav navbar-nav">
+                    <li<c:if test="${pageTitle == 'Askareet'}"> class="active"</c:if>><a href="/FlexDo/index">Askareet</a></li>
+                    <li<c:if test="${pageTitle == 'Muistiot'}"> class="active"</c:if>><a href="/FlexDo/index?memos">Muistiot</a></li>
+                    <li<c:if test="${pageTitle == 'Luokat'}"> class="active"</c:if>><a href="/FlexDo/categories">Luokat</a></li>
+                    <li<c:if test="${pageTitle == 'Arkistoidut Tehtävät'}"> class="active"</c:if>><a href="/FlexDo/index?archive">Arkisto</a></li>
+                    <c:if test="${admin != null}">
+                    <li<c:if test="${pageTitle == 'Ylläpito'}"> class="active"</c:if>><a href="/FlexDo/admin">Ylläpito</a></li>
+                    </c:if>
+                </ul>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Etsi..." disabled>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default" disabled>Hae</button>
+                        </span>
+                    </div>
+                </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="login?logout">Kirjaudu Ulos</a></li>
                 </ul>
