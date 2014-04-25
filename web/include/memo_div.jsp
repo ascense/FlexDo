@@ -13,7 +13,7 @@
                     <a href="#" class="label label-info"><c:out value='${category.name}' escapeXml='true'/></a>
                     </c:forEach>
                 </small>
-                <a href="/FlexDo/delete?id=${memo.id}">
+                <a href="/FlexDo/delete?memoid=${memo.id}">
                 <button type="button" class="close" aria-hidden="true">&times;</button>
                 </a>
             </h4>

@@ -4,8 +4,6 @@ import com.ascense.flexdo.models.Category;
 import com.ascense.flexdo.models.Memo;
 import com.ascense.flexdo.models.Task;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -99,7 +97,9 @@ public class Edit extends AbstractServlet {
                 task = new Task(memo.getId(), Integer.parseInt(priority), null);
             } catch (NumberFormatException e) {
                 task = new Task(memo.getId(), 1, null);
-                request.setAttribute("errorMsg", "Askaareen prioriteetin täytyy olla kokonaisluku");
+                if (priority.length() != 0) {
+                    request.setAttribute("errorMsg", "Askaareen prioriteetin täytyy olla kokonaisluku");
+                }
             }
             task.createTask();
             memo.setTask(task);
@@ -116,7 +116,7 @@ public class Edit extends AbstractServlet {
                 request.setAttribute("errorMsg", "Suljettua askaretta ei voida muokata!");
                 return;
             }
-            
+
             memo.setName(name);
             memo.setContent(content);
 

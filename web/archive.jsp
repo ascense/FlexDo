@@ -18,7 +18,7 @@
                     <c:out value='${memo.task.closed}' escapeXml='true'/>
                 </td>
                 <td>
-                    <a href="/FlexDo/delete?id=${memo.id}">
+                    <a href="/FlexDo/delete?memoid=${memo.id}">
                     <button type="button" class="close" aria-hidden="true">&times;</button>
                     </a>
                 </td>

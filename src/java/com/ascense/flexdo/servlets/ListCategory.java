@@ -72,8 +72,29 @@ public class ListCategory extends AbstractServlet {
      */
     private void update(HttpServletRequest request, HttpServletResponse response, Category cat)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("edit.jsp");
-        dispatcher.forward(request, response);
+        String name = request.getParameter("inputName");
+        // TODO: parentid
+
+        if (cat == null) {
+            // create new category
+            cat = createCategory(request, name, "-1");
+        }
+
+        display(request, response, cat);
+    }
+
+    private Category createCategory(HttpServletRequest request, String name, String parent) {
+        Category cat = new Category(
+            -1,
+            getLoggedIn(request).getId(),
+            name,
+            -1 // TODO: parentid
+        );
+        if (!cat.createCategory()) {
+            request.setAttribute("errorMsg", "Luokan luominen epäonnistui!");
+        }
+
+        return cat;
     }
 
     @Override

@@ -169,6 +169,14 @@ public class Memo {
         ArrayList<Integer> ids = new ArrayList<Integer>();
 
         try {
+            // remove any references to memo first
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "DELETE FROM memo_category WHERE memoid=? RETURNING memoid",
+                this.id
+            );
+            // then remove the memo itself
             Database.doQuery(
                 Database.QueryInt.class,
                 ids,

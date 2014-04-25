@@ -48,10 +48,73 @@ public class Category {
     }
 
     public Category getParent() {
-        if (parentid != 0) {
+        if (parentid > 0) {
             return Category.getCategory(parentid);
         }
         return null;
+    }
+
+    public boolean deleteCategory() {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+
+        try {
+            // remove any references to category first
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "DELETE FROM memo_category WHERE catid=? RETURNING catid",
+                this.id
+            );
+            // TODO - also remove child-categories
+            // then remove the category itself
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "DELETE FROM category WHERE catid=? RETURNING catid",
+                this.id
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return !ids.isEmpty();
+    }
+
+    public boolean createCategory() {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+
+        try {
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "INSERT INTO category (catid, userid, catname, parentid) VALUES(?,?,?, ?) RETURNING catid",
+                this.id, this.userid, this.catname, this.parentid
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return !ids.isEmpty();
+    }
+
+    public boolean updateCategory() {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+
+        try {
+            Database.doQuery(
+                Database.QueryInt.class,
+                ids,
+                "UPDATE category SET catname=?, parentid=? WHERE catid=? RETURNING catid",
+                this.catname, this.parentid, this.id
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (!ids.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     /**

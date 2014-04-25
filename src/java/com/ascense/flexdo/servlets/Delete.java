@@ -1,5 +1,6 @@
 package com.ascense.flexdo.servlets;
 
+import com.ascense.flexdo.models.Category;
 import com.ascense.flexdo.models.Memo;
 import com.ascense.flexdo.models.Task;
 import java.io.IOException;
@@ -17,11 +18,11 @@ public class Delete extends AbstractServlet {
             return;
         }
 
-        Memo memo = null;
-        try {
-             memo = Memo.getMemo(Integer.parseInt(request.getParameter("id")));
-        } catch (NumberFormatException e) {}
-        deleteMemo(memo);
+        if (request.getParameter("memoid") != null) {
+            deleteMemo((String) request.getParameter("memoid"));
+        } else if (request.getParameter("catid") != null) {
+            deleteCategory((String) request.getParameter("catid"));
+        }
 
         String ref = request.getHeader("referer");
         if (ref != null && !ref.isEmpty()) {
@@ -31,7 +32,11 @@ public class Delete extends AbstractServlet {
         }
     }
 
-    private static void deleteMemo(Memo memo) {
+    private static void deleteMemo(String memoid) {
+        Memo memo = null;
+        try {
+             memo = Memo.getMemo(Integer.parseInt(memoid));
+        } catch (NumberFormatException e) {}
         if (memo == null) return;
 
         if (memo.getTask() != null) {
@@ -47,6 +52,18 @@ public class Delete extends AbstractServlet {
             task.deleteTask();
         }
         memo.deleteMemo();
+    }
+
+    private static void deleteCategory(String catid) {
+        Category cat = null;
+        try {
+             cat = Category.getCategory(Integer.parseInt(catid));
+        } catch (NumberFormatException e) {}
+        if (cat == null) return;
+
+        // TODO: delete children
+
+        cat.deleteCategory();
     }
 
     @Override

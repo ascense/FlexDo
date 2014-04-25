@@ -53,7 +53,7 @@
                 </c:when>
                 <c:otherwise>
                     <div class="col-sm-2">
-                        <a href="delete?id=${id}">
+                        <a href="delete?memoid=${id}">
                             <button type="button" class="btn btn-danger btn-block">Poista</button>
                         </a>
                     </div>
