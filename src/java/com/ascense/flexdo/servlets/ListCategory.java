@@ -39,7 +39,7 @@ public class ListCategory extends AbstractServlet {
         } catch (NumberFormatException e) {}
 
         // verify that the user owns requested category
-        if (cat.getUserId() == userid) {
+        if (cat != null && cat.getUserId() == userid) {
             request.setAttribute("category", cat);
         }
         request.setAttribute("categories", Category.getCategories(userid));
@@ -80,15 +80,21 @@ public class ListCategory extends AbstractServlet {
             cat = createCategory(request, name, "-1");
         }
 
+        request.setAttribute("category", cat);
         display(request, response, cat);
     }
 
     private Category createCategory(HttpServletRequest request, String name, String parent) {
+        int parentid = -1;
+        try {
+            parentid = Integer.parseInt(parent);
+        } catch (NumberFormatException e) {}
+
         Category cat = new Category(
             -1,
             getLoggedIn(request).getId(),
             name,
-            -1 // TODO: parentid
+            parentid
         );
         if (!cat.createCategory()) {
             request.setAttribute("errorMsg", "Luokan luominen epäonnistui!");

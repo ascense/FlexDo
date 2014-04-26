@@ -10,7 +10,7 @@
                 <small>
                     &nbsp;
                     <c:forEach var="category" items="${memo.categories}">
-                    <a href="#" class="label label-info"><c:out value='${category.name}' escapeXml='true'/></a>
+                    <a href="/FlexDo/category?id=${category.id}" class="label label-info"><c:out value='${category.name}' escapeXml='true'/></a>
                     </c:forEach>
                 </small>
                 <a href="/FlexDo/delete?memoid=${memo.id}">

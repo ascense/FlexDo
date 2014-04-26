@@ -69,9 +69,20 @@ public class Edit extends AbstractServlet {
         String priority = request.getParameter("inputPriority");
 
         if (memo == null) {
-            createMemo(request, name, content, priority);
+            memo = createMemo(request, name, content, priority);
         } else {
             updateMemo(request, memo, name, content, priority);
+        }
+
+        String[] categories = request.getParameterValues("inputCategories");
+        int catids[] = new int[categories.length];
+        try {
+            for (int i = 0; i < categories.length; ++i) {
+                catids[i] = Integer.parseInt(categories[i]);
+            }
+            memo.setCategories(catids);
+        } catch (NumberFormatException e) {
+            // TODO: Error handling
         }
 
         if (name == null || name.isEmpty()) {

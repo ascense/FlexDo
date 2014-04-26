@@ -70,7 +70,10 @@ public class Database {
         ResultSet rs = null;
 
         // TODO: Fix ugly hacks
-        Method instantiate = cls.getMethod("fromResultSet", ResultSet.class);
+        Method instantiate = null;
+        if (cls != null) {
+            instantiate = cls.getMethod("fromResultSet", ResultSet.class);
+        }
 
         try {
             conn = Database.getConnection();
@@ -82,8 +85,10 @@ public class Database {
 
             rs = ps.executeQuery();
 
-            while (rs.next()) {
-                list.add(instantiate.invoke(null, rs));
+            if (cls != null && list != null) {
+                while (rs.next()) {
+                    list.add(instantiate.invoke(null, rs));
+                }
             }
 
         } catch (IllegalAccessException e) {
@@ -95,5 +100,13 @@ public class Database {
             try { if (ps != null) ps.close(); } catch (SQLException e) {}
             try { if (conn != null) conn.close(); } catch (SQLException e) {}
         }
+    }
+
+    /*
+     * Conviniance wrapper for doQuery(cls, list, query, qvals)
+     */
+    public static void doQuery(String query, Object... qvals)
+            throws NamingException, SQLException, NoSuchMethodException {
+        doQuery(null, null, query, qvals);
     }
 }

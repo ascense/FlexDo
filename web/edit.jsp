@@ -30,7 +30,7 @@
                     <label class="control-label" for="inputCategory">Luokka</label><br />
                     <c:forEach var="category" items="${categories}">
                         <label class="checkbox-inline">
-                            <input type="checkbox" id="inputCategory${category.id}" value="${category.id}" <c:if test="${f:has_category(memo, category)}">checked=""</c:if>>
+                            <input type="checkbox" name="inputCategories" value="${category.id}" <c:if test="${f:has_category(memo, category)}">checked=""</c:if>>
                             <c:out value='${category.name}' escapeXml='true'/>
                         </label>
                     </c:forEach>
@@ -46,7 +46,7 @@
                 <c:choose>
                 <c:when test="${closed == false}">
                     <div class="col-sm-2">
-                        <a href="delete?id=${id}">
+                        <a href="delete?memoid=${id}">
                             <button type="button" class="btn btn-warning btn-block">Sulje</button>
                         </a>
                     </div>

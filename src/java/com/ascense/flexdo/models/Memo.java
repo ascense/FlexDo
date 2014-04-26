@@ -108,6 +108,83 @@ public class Memo {
         return cats;
     }
 
+    /**
+     * Set categories for Memo.
+     *
+     * Unlike most other Memo-methods, changes are applied directly to the database!
+     *
+     * @param categories Complete list of categories to be assigned
+     */
+    public void setCategories(int[] categories) {
+        // create new args array to be passed as varargs to doQuery
+        Object args[];
+
+        // Remove old categories not in new list:
+        args = new Object[categories.length + 1];
+        args[0] = this.id;
+        for (int i = 0; i < categories.length; ++i) {
+            args[i + 1] = categories[i];
+        }
+
+        StringBuilder query = new StringBuilder();
+        query.append("DELETE FROM memo_category WHERE memoid=?");
+        if (categories.length > 0) {
+            query.append("AND catid NOT IN (");
+            for (int i = 0; i < categories.length - 1; ++i) {
+                query.append("?, ");
+            }
+            query.append("?) RETURNING memoid");
+        }
+
+        try {
+            Database.doQuery(query.toString(), args);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        // Get existing category ids:
+        ArrayList<Integer> old_cats = new ArrayList<Integer>();
+        try {
+            Database.doQuery(
+                Database.QueryInt.class,
+                old_cats,
+                "SELECT catid FROM memo_category WHERE memoid=?",
+                this.id
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        // Add newly assigned categories:
+        ArrayList<Integer> new_cats = new ArrayList<Integer>();
+        for (int catid : categories) {
+            if (!old_cats.contains((Integer) catid)) {
+                new_cats.add(catid);
+            }
+        }
+
+        if (new_cats.size() == 0) return;
+
+        args = new Object[new_cats.size() * 2];
+        for (int i = 0; i < new_cats.size(); ++i) {
+            args[i * 2] = this.id;
+            args[i * 2 + 1] = new_cats.get(i);
+        }
+
+        query = new StringBuilder();
+        query.append("INSERT INTO memo_category (memoid, catid) VALUES ");
+        for (int i = 0; i < new_cats.size() - 1; ++i) {
+            query.append("(?,?), ");
+        }
+        query.append("(?,?) RETURNING memoid");
+
+        try {
+            Database.doQuery(query.toString(), args);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void setTask(Task task) {
         if (task.getMemoID() != this.id) {
             return;

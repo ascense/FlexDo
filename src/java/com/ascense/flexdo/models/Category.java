@@ -83,18 +83,25 @@ public class Category {
     public boolean createCategory() {
         ArrayList<Integer> ids = new ArrayList<Integer>();
 
+        // Java integers can't be null, so wrap parentid in Integer
+        Integer parent_integer = (this.parentid > 0) ? this.parentid : null;
+
         try {
             Database.doQuery(
                 Database.QueryInt.class,
                 ids,
-                "INSERT INTO category (catid, userid, catname, parentid) VALUES(?,?,?, ?) RETURNING catid",
-                this.id, this.userid, this.catname, this.parentid
+                "INSERT INTO category (userid, catname, parentid) VALUES(?,?,?) RETURNING catid",
+                this.userid, this.catname, parent_integer
             );
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        return !ids.isEmpty();
+        if (!ids.isEmpty()) {
+            this.id = ids.get(0);
+            return true;
+        }
+        return false;
     }
 
     public boolean updateCategory() {
