@@ -7,7 +7,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 
 public class Admin extends AbstractServlet {
@@ -23,8 +22,7 @@ public class Admin extends AbstractServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response, boolean post)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-
+        // only admin can access this page (currently admin is always userid 1)
         if (!isLoggedIn(request) || getLoggedIn(request).getId() != 1) {
             response.sendRedirect("index");
             return;

@@ -1,35 +1,50 @@
-﻿\documentclass[finnish]{article}
+﻿\documentclass[finnish]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{babel}
+\usepackage{float}
+\restylefloat{figure}
+
+% Luvuille otsikkona pelkkä luvun nimi ja numero
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{50\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \interlinepenalty\@M
+    \Huge\bfseries  \thechapter.\quad #1\par\nobreak
+    \vskip 40\p@
+  }}
+\makeatother
 
 
 \begin{document}
 
 \title{Tietokantasovellus - FlexDo}
+\author{Henry Carlson}
 \maketitle
 
+\tableofcontents
 
-\section{Johdanto}
+\chapter{Johdanto}
 Tavoitteena on kehittää tehokas järjestelmä tehtävien hallintaan. Tehtävät tulisi voida priorisoida, ja lajitella omiin luokkiinsa.
 
-\subsection{Järjestelmän tarkoitus}
+\section{Järjestelmän tarkoitus}
 Järjestelmän perusta on priorisoitu tehtävälista. Järjestelmän tulisi sallia käyttäjän lisätä tehtäviä listalle, asettaa tehtäville prioriteetti, ja selata niitä eri järjestyksissä (mm. prioriteetin mukaan). Lisäksi tehtävät tulisi voida luokitella erillisiin kategorioihin, mielellään hierarkisesti.
 
-\subsection{Toteutus}
+\section{Toteutus}
 Järjestelmä toteutetaan Java/Tomcat verkkosovelluksena, tietokantajärjestelmänä PostgreSQL. Järjestelmän tulisi olla käytettävissä puhtaasti html muotoisena, mutta käyttöä helpottavia lisätoimintoja voidaan tarvittaessa toteuttaa javascriptillä.
 
 
-\section{Yleiskuva järjestelmästä}
+\chapter{Yleiskuva järjestelmästä}
 
-\subsection{Käyttäjäryhmät}
+\section{Käyttäjäryhmät}
 \begin{description}
   \item[Käyttäjä] \hfill \\
     Rekisteröitynyt ja järjestelmään sisäänkirjautunut käyttäjä
 \end{description}
 
-\subsection{Käyttötapaukset}
+\section{Käyttötapaukset}
 \begin{description}
   \item[Kirjautuminen]
   \item[Rekisteröityminen]
@@ -54,11 +69,17 @@ Järjestelmä toteutetaan Java/Tomcat verkkosovelluksena, tietokantajärjestelm�
 \end{description}
 
 
-\section{Järjestelmän tietosisältö}
+\chapter{Järjestelmän tietosisältö}
 
-\subsection{Tietokohteet}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{kasitekaavio}
+\caption{Käsitekaavio}
+\end{figure}
 
-\paragraph{Tietokohde: Käyttäjät} ~\\
+\section{Tietokohteet}
+
+\paragraph{Tietokohde: Käyttäjä} ~\\
 
 \begin{tabular}{ | l | l | l | }
   \hline
@@ -116,48 +137,55 @@ Jokaiseen askareeseen liittyy tasan yksi muistio.
 Luokat voidaan järjestää hierarkiaan yläluokka-suhteen mukaan. Jokainen muistio voi kuulua yhteen tai useampaan luokkaan.
 
 
-\section{Relaatiotietokantakaavio}
+\chapter{Relaatiotietokantakaavio}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{relaatiotietokantakaavio}
+\caption{Relaatiotietokantakaavio}
+\end{figure}
+
+
+\chapter{Järjestelmän yleisrakenne}
 
 % TODO
 
 
-\section{Järjestelmän yleisrakenne}
+\chapter{Käyttöliittymä ja järjestelmän komponentit}
 
 % TODO
 
 
-\section{Käyttöliittymä ja järjestelmän komponentit}
-
-% TODO
-
-
-\section{Asennustiedostot}
+\chapter{Asennustiedostot}
 
 Asenna sovellus lisäämällä Tomcat:iin sovelluspaketti (.war). Luo sen jälkeen sovellukselle 'FlexDo/META-INF/context.xml'-tiedosto kopioimalla mallitiedosto 'FlexDo/META-INF/context.xml.dist', ja muuttamalla kohdat 'USERNAME', 'PASSWORD' ja 'DBNAME' ympäristön mukaisiksi.
 
 
-\section{Käynnistys-/käyttöohje}
+\chapter{Käynnistys-/käyttöohje}
 
 Asennuksen jälkeen sovelluksen tulisi löytyä palvelimelta aliosoitteesta '/FlexDo/index'.
 Kirjaudu sisään sovellukseen hallinnointitunnuksilla (oletuksena käyttäjänimi 'admin', salasana 'admin'), ja luo tarvittavat käyttäjätunnukset.
 % TODO - Tietokannan populointi
 
 
-\section{Testaus, tunnetut bugit ja puutteet \& jatkokehitysideat}
+\chapter{Testaus, tunnetut bugit ja puutteet, jatkokehitysideat}
 
-\subsection{Jatkokoehitysideoita}
+\section{Testaus}
+
+Sovellusta on testattu lähinnä käyttämällä sovellusta normaalisti sovelluksen kehityksen yhteydessä. Mitään varsinaista järjestelmällistä testausta (testaussuunitelma, automatisoidut testitapaukset jne.) ei sovellukselle ole tehty.
+
+\section{Jatkokoehitysideoita}
 
 \begin{itemize}
   \item Askareiden haku
   \item Askareiden aikataulutus
   \item Askareiden välisiä linkkejä (wiki-tyyli)
-  \item Muistioita ("askare", joka toimii muistiona eikä suoritettavana tehtävänä) (vaatii askareiden väiset linkit)
   \item Askareiden välisiä vaativuuksia (Tehtävä B ei ole suoritettavissa ennenkuin tehtävä A on suoritettu)
   \item Projektinäkymä (kartoitettu näkymä aikataulusta ja askareiden väisistä riippuvuuksista)
 \end{itemize}
 
 
-\section{Omat kokemukset}
+\chapter{Omat kokemukset}
 
 
 \end{document}
