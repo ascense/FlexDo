@@ -148,7 +148,11 @@ Luokat voidaan järjestää hierarkiaan yläluokka-suhteen mukaan. Jokainen muis
 
 \chapter{Järjestelmän yleisrakenne}
 
-% TODO
+Tietokantasovellusta on kehitetty NetBeans-projektina. Sovelluksen Java-komponenttien lähdekoodi löytyy hakemistosta 'src/java'.
+
+Sovellusta tehdessä on noudatettu MVC-mallia. Kontrollerit löytyvät Java-pakkakuksesta 'com.ascense.flexdo.servlets', mallit pakkauksesta 'com.ascense.flexdo.models'. Näkymät ovat sovelluksen juuressa sijaitsevissa 'jsp'-tiedostoissa. Java-apuluokkia tietokantayhteyksien ja salasanojen käsittelyyn löytyy pakkauksesta 'com.ascense.flexdo.core'.
+
+Näkymissä käytetyt jaetut komponentit löytyvät 'includes'-hakemistosta. Yleinen runko sovelluksen sivuille löytyy tagista tiedostossa 'WEB-INF/tags/base.tag'. Lisäksi sovellukselle on oma jsp-funktiokirjasto tiedostossa 'WEB-INF/tlds/functions.tld'. Sovellus käyttää Bootstrap-kirjastoa, jonka osat löytyvät 'css', 'fonts' ja 'js'-hakemistoista.
 
 
 \chapter{Käyttöliittymä ja järjestelmän komponentit}
